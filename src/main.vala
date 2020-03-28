@@ -63,3 +63,23 @@ public class ArchWiki.View : WebKit.WebView {
     }
 }
 
+public class ArchWiki.Stack : Gtk.Stack {
+    public WebKit.WebView online_view{get;construct}
+    public WebKit.WebView offline_view{get;construct}
+    public string online_uri {get;construct}
+    public string offline_uri {get;construct}
+    public Stack (string online, string offline) {
+        Object(
+            online_uri: online,
+            offline_uri: offline
+        )
+    }
+    construct {
+        online_view = new ArchWiki.View (online_uri);
+        offline_view = new ArchWiki.View (offline_uri);
+        add(offline_uri);
+        add(online_view);
+    }
+
+}
+
