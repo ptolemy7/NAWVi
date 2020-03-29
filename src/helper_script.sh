@@ -1,0 +1,26 @@
+#!/bin/bash
+
+get_html() {
+    wiki_path="/usr/share/doc/arch-wiki"
+    number=$( echo "$1" |rev |  cut -b -8 | rev)
+    name=$(grep " $number\$" "$wiki_path/text/index" | cut -d ' ' -f 1)
+    html="$wiki_path/html/$name.html"
+    echo $html
+}
+
+make_pretty() {
+    pretty=$( echo "$1"  | cut -c 2- | rev | cut -c 9- | rev)
+    echo $pretty
+}
+
+case "$1" in 
+    "-h")
+    get_html "$2"
+    ;;
+    "-p")
+    make_pretty "$2"
+    ;;
+    * )
+    $echo "command not recongized, try -h or --help for more"
+    ;;
+esac
