@@ -1,3 +1,3 @@
-project('com.github.ptolemy7.archwiki','vala','c')
+project('com.github.ptolemy7.NAWVi','vala','c')
 
 subdir('src')

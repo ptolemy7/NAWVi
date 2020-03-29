@@ -1,22 +1,22 @@
 public static int main (string[] args ) {
-    var app = new Archwiki.Application ();
+    var app = new NAWVi.Application ();
     return app.run (args);
 }
 
-public class Archwiki.Application: Gtk.Application {
+public class NAWVi.Application: Gtk.Application {
     public Application () {
         Object (
-        application_id: "com.githb.ptolemy7.arckwiki",
+        application_id: "com.githb.ptolemy7.NAWVi",
         flags: ApplicationFlags.FLAGS_NONE
         );
     }
     protected override void activate () {
-        var window = new Archwiki.Window(this);
+        var window = new NAWVi.Window(this);
         add_window (window);
     }
 }
 
-public class Archwiki.Window : Gtk.Window  {
+public class NAWVi.Window : Gtk.Window  {
     public Gtk.SearchEntry search{get;set;}
     public WebKit.WebView online_view{get;set;}
     public Window (Application app) {

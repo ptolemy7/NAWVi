@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=NAWVi
+GenericName=Local Arch Wiki Viewer
+Comment=A viewer powered by WebKitGtk for a native copy of the Arch Wiki 
+Categories=Utility;Education;
+Exec=com.github.ptolemy7.NAWVi
+Icon=application-default-icon
+Terminal=false
+Type=Application
+Keywords=Arch;Wiki;Viewer;
