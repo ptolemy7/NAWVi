@@ -21,9 +21,10 @@
             <summary>Window height</summary>
             <description>The saved height of the window</description>
         </key>
-        <key name=current_uri type="string">
-            <default>file:///usr/share/doc/arch-wiki/html/en/List_of_applications.html</default>
+        <key name="current-uri" type="s">
+            <default>"file:///usr/share/doc/arch-wiki/html/en/List_of_applications.html"</default>
             <summary>Page to load on startup</summary>
             <description>The page to load when NAWVi starts, remembers from when you exited</description>
+        </key>
     </schema>
 </schemalist>
