@@ -64,6 +64,8 @@ public class Archwiki.Window : Gtk.Window  {
                 //  make_pretty(i,out pretty);
                 var temp = new Gtk.ModelButton ();
                 temp.set_label(i);
+                float align = 0.5f;
+                temp.set_alignment (align,align);
                 search_buttons.add (temp);
                 list_box.pack_start (temp);
                 temp.show ();
