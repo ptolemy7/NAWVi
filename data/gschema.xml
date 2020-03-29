@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema path="/com/github/ptolemy7/NAWVi/" id="com.github.ptolemy7.NAWVi">
+        <key name="pos-x" type="i">
+            <default>360</default>
+            <summary>Horizontal postition</summary>
+            <description>The saved horrizontal position of the window</description>
+        </key>
+        <key name="pos-y" type="i">
+            <default>360</default>
+            <summary>Vertical postition</summary>
+            <description>The saved vertical position of the window</description>
+        </key>
+        <key name="window-width" type="i">
+            <default>600</default>
+            <summary>Window width</summary>
+            <description>The saved width of the window</description>
+        </key>
+        <key name="window-height" type="i">
+            <default>400</default>
+            <summary>Window height</summary>
+            <description>The saved height of the window</description>
+        </key>
+        <key name=current_uri type="string">
+            <default>file:///usr/share/doc/arch-wiki/html/en/List_of_applications.html</default>
+            <summary>Page to load on startup</summary>
+            <description>The page to load when NAWVi starts, remembers from when you exited</description>
+    </schema>
+</schemalist>
