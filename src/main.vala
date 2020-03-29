@@ -42,7 +42,7 @@ public class Archwiki.Window : Gtk.Window  {
         bool is_shown = false;
         string text_to_display;
         var search_list = new Gee.ArrayList<string> ();
-        var search_buttons = new Gee.ArrayList<Gtk.Button> ();
+        var search_buttons = new Gee.ArrayList<Gtk.ModelButton> ();
 
         search_button.toggled.connect ( () => {
             if ( ! search.is_visible()) {
@@ -62,7 +62,8 @@ public class Archwiki.Window : Gtk.Window  {
             foreach (var i in search_list) {
                 //  string pretty;
                 //  make_pretty(i,out pretty);
-                var temp = new Gtk.Button.with_label(i);
+                var temp = new Gtk.ModelButton ();
+                temp.set_label(i);
                 search_buttons.add (temp);
                 list_box.pack_start (temp);
                 temp.show ();
