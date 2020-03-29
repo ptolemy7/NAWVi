@@ -60,10 +60,10 @@ public class Archwiki.Window : Gtk.Window  {
                 j.destroy ();
             };
             foreach (var i in search_list) {
-                //  string pretty;
-                //  make_pretty(i,out pretty);
+                string pretty;
+                make_pretty(i,out pretty);
                 var temp = new Gtk.ModelButton ();
-                temp.set_label(i);
+                temp.set_label(pretty);
                 float align = 0.5f;
                 temp.set_alignment (align,align);
                 search_buttons.add (temp);
@@ -72,6 +72,7 @@ public class Archwiki.Window : Gtk.Window  {
                 temp.clicked.connect ( () => {
                     change_site(i);
                     stack.set_visible_child (online_view);
+                    search.set_text ("");
                 });
 
             };
@@ -142,7 +143,8 @@ public class Archwiki.Window : Gtk.Window  {
         return_list = list ;
     }
     public void make_pretty(string i ,out string exit) {
-        string [] args = { "cut", "-d", "' '", "-f", "1", i};
+        //  print(i + "\n");
+        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh","-p",i};
         string [] env = Environ.get ();
         string std_out;
         string std_err;
@@ -158,10 +160,10 @@ public class Archwiki.Window : Gtk.Window  {
                 out cmd_status);
 
             //  print(std_out);
-            std_out = exit;
+            exit=std_out;
     }
     public void change_site (string i ) {
-        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh",i};
+        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh","-h",i};
         string [] env = Environ.get ();
         string std_out;
         string std_err;
