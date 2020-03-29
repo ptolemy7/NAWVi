@@ -71,7 +71,9 @@ public class Archwiki.Window : Gtk.Window  {
                     change_site(i);
                     stack.set_visible_child (online_view);
                 });
+
             };
+            search_button.set_active (false);
         });
 
         headerbar.set_show_close_button (true);
