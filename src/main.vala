@@ -17,19 +17,26 @@ public class NAWVi.Application: Gtk.Application {
 }
 
 public class NAWVi.Window : Gtk.Window  {
+    public GLib.Settings settings;
     public Gtk.SearchEntry search{get;set;}
     public WebKit.WebView online_view{get;set;}
     public Window (Application app) {
         Object (application: app);
     }
     construct {
+        settings = new GLib.Settings ("com.github.ptolemy7.NAWVi");
+        move (settings.get_int ("pos-x") , settings.get_int( "pos-y"));
+        resize (settings.get_int ("window-width"), settings.get_int ("window-height"));
+        delete_event.connect (e => {
+            return before_destroy ();
+        });
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL,1);
         var headerbar = new Gtk.HeaderBar ();
         var list_box = new Gtk.Box (Gtk.Orientation.VERTICAL,1);
         online_view = new WebKit.WebView ();
         var stack = new Gtk.Stack ();
         // Need to find a way to get this to look better ...
-        online_view.load_uri("file:///usr/share/doc/arch-wiki/html/en/Btrfs.html");
+        online_view.load_uri(settings.get_string ("current-uri"));
         online_view.set_vexpand(true);
         online_view.set_hexpand(true);
 
@@ -103,8 +110,24 @@ public class NAWVi.Window : Gtk.Window  {
         add(main_box);
         show_all ();
     }
+    public bool before_destroy () {
+        // setup the varaibles needs
+        int width, height, x,y;
+        get_size (out width, out height);
+        get_position (out x, out y);
+        var uri = online_view.get_uri ();
+        // Do some cleanup
+        //  Posix.system ("rm /tmp/gbtrfs");
+        // write them to dconf
+        // Commented out right now b/c I can't figure out what is going wrong when ran as root
+        settings.set_int("pos-x", x);
+        settings.set_int("pos-y", y);
+        settings.set_int("window-width",width);
+        settings.set_int("window-height",height);
+        settings.set_string("current-uri",uri);
+        return false;
+    }
     public void search_changed_cb (out string return_text) {
-        //  string text = search.get_text ();
         string [] args = { "wiki-search",search.get_text () };
         string [] env = Environ.get ();
         string std_out;
