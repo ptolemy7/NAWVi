@@ -35,6 +35,7 @@ public class NAWVi.Window : Gtk.Window  {
         var list_box = new Gtk.Box (Gtk.Orientation.VERTICAL,1);
         online_view = new WebKit.WebView ();
         var stack = new Gtk.Stack ();
+        stack.transition_type = Gtk.StackTransitionType.CROSSFADE;
         // Need to find a way to get this to look better ...
         online_view.load_uri(settings.get_string ("current-uri"));
         online_view.set_vexpand(true);
