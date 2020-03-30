@@ -9,6 +9,7 @@ url=""
 license=('GPL')
 groups=()
 depends=( 'coreutils' 'arch-wiki-docs' 'gtk3' 'webkit2gtk' 'arch-wiki-docs-lite')
+
 makedepends=( 'meson' 'vala' )
 install=
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/NAWVi/raw/pkgbuild/tarball/v${pkgver}.tar.gz")

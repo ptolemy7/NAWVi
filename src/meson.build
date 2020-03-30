@@ -10,7 +10,7 @@ executable (
 )
 
 install_data (
-    'helper_script.sh',
-    install_dir: join_paths( get_option('prefix'),'lib', meson.project_name())
+    'nawvi_helper_script',
+    install_dir: join_paths( get_option('prefix'),'bin')
 
 )
