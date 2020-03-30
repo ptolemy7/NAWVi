@@ -8,3 +8,9 @@ executable (
     ],
     install: true
 )
+
+install_data (
+    'nawvi_helper_script',
+    'nawvi-wiki-search',
+    install_dir: join_paths( get_option('prefix'),'bin')
+)

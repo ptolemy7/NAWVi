@@ -132,7 +132,7 @@ public class NAWVi.Window : Gtk.Window  {
         return false;
     }
     public void search_changed_cb (out string return_text) {
-        string [] args = { "wiki-search",search.get_text () };
+        string [] args = { "nawvi-wiki-search","--no_dialog",search.get_text () };
         string [] env = Environ.get ();
         string std_out;
         string std_err;
@@ -171,7 +171,7 @@ public class NAWVi.Window : Gtk.Window  {
     }
     public void make_pretty(string i ,out string exit) {
         //  print(i + "\n");
-        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh","-p",i};
+        string [] args = { "nawvi_helper_script","-p",i};
         string [] env = Environ.get ();
         string std_out;
         string std_err;
@@ -190,7 +190,7 @@ public class NAWVi.Window : Gtk.Window  {
             exit=std_out;
     }
     public void change_site (string i ) {
-        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh","-h",i};
+        string [] args = { "nawvi_helper_script","-h",i};
         string [] env = Environ.get ();
         string std_out;
         string std_err;
