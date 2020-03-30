@@ -12,10 +12,11 @@ You'll need the following dependencies to install (given by name in the repo's )
 - webkit2gtk
 - gtk3
 - arch-wiki-docs
+- libgee
 
 ##### Build instructions: 
 ``` bash
-$ meson build --prefix=/bin
+$ meson build --prefix=/usr
 $ cd build
 $ ninja 
 $ sudo ninja install 
