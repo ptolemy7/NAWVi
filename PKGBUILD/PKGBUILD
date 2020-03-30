@@ -4,12 +4,12 @@ pkgver=0.1
 pkgrel=1
 epoch=
 pkgdesc="A viewer powered by WebKitGtk for a native copy of the Arch Wiki"
-arch=(any)
+arch=("any")
 url=""
 license=('GPL')
 groups=()
-depends=('coreutils','arch-wiki-docs')
-makedepend('meson','vala','gtk3','webkit2gtk')
+depends=( 'coreutils' 'arch-wiki-docs' 'gtk3' 'webkit2gtk' )
+makedepends=( 'meson' 'vala' )
 install=
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/NAWVi/raw/master/tarball/v${pkgver}.tar.gz")
 build() {
