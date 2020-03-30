@@ -8,8 +8,8 @@ arch=("any")
 url=""
 license=('GPL')
 groups=()
-depends=( 'coreutils' 'arch-wiki-docs' 'gtk3' 'webkit2gtk' 'arch-wiki-docs-lite')
-conflicts=( 'dialog' )
+depends=( 'coreutils' 'arch-wiki-docs' 'gtk3' 'webkit2gtk' 'arch-wiki-lite')
+conflicts=( )
 
 makedepends=( 'meson' 'vala' )
 install=
@@ -25,4 +25,5 @@ package() {
 }
 
 
-md5sums=('c1718bfe0dc9c677703b4b6c4d445900')
+
+md5sums=('59be4d341a8d949723af63eed00d8c63')
