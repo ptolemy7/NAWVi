@@ -19,9 +19,6 @@ build() {
     ninja -C build install
 }
 package() {
-  mkdir -p $pkgdir/usr/bin
-  mkdir -p $pkgdir/etc/smoob
   mkdir -p $pkgdir/usr/bin/
-  install -D smoob.service $pkgdir/etc/systemd/system/
-  install -D smoob $pkgdir/usr/bin/
+  install -D $pkgdir/ $pkgdir/usr/bin/
 }
