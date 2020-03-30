@@ -1,0 +1,194 @@
+#! /bin/bash
+
+
+# All credit goes to Kyle Keen, the maintainer of the arch-wiki-lite package. This is merely a copy with an option added to 
+# disable the dialog if wanted
+
+# todo, ewiki-search (extended regex)
+#       and/or multiword (matches + 1, product, divided by word count)
+
+wiki_path="/usr/share/doc/arch-wiki/text"
+#wiki_path="./wiki"
+dialogrc_path="/etc/dialog.d/wiki-search.dialog.rc"
+html_path="/usr/share/doc/arch-wiki/html"
+wikiball="$wiki_path/arch-wiki.txt.gz"
+tmp="/tmp/.wiki-search.${USER}.tmp"
+COLOR1='\e[1;32m'
+COLOR5='\e[1;34m'
+ENDC='\e[0m'
+
+if [[ -z "$wiki_width" ]]; then
+    size=$(stty size | cut -d ' ' -f 2)
+    [[ -z "$size" ]] && size=80
+else
+    size="$wiki_width"
+fi
+
+has_dialog=""
+which dialog &> /dev/null && has_dialog="true"
+[[ "$wiki_width" ]] && has_dialog=""
+
+ztext() {  # full number, regex -> text
+    if [[ -t 1 && ( ! $PAGER || "$PAGER" == "less" ) ]]; then
+        echo -e "$(zgrep "^$1:" "$wikiball" | cut -d: -f2- | \
+        fold -s -w $size | sed -e 's|\\|\\\\|g' \
+        -e "s/@@b/\\${COLOR5}/g" -e "s/@@w/\\${ENDC}/g" \
+        -e "s/$2/\\${COLOR1}&\\${ENDC}/gi")" | less -RM
+    elif [[ -t 1 ]]; then
+        zgrep "^$1:" "$wikiball" | cut -d: -f2- | sed 's/@@[bw]//g' | ${PAGER:-less}
+    else
+        zgrep "^$1:" "$wikiball" | cut -d: -f2- | sed 's/@@[bw]//g'
+    fi 
+}
+
+almost_file() {  # fragment -> full number
+    zcat "$wikiball" | cut -d: -f1 | uniq | grep -o -m 1 "^0*$1$"
+}
+
+toc_text() {  # title_width -> title path (with language filtering)
+    while read i; do
+        title=${i% *}
+        page=${i##* }
+        language="${title%%/*}"
+        title=${title#en/}
+        if [ "$language" = "${wiki_lang:-en}" ]; then
+            if [[ $1 ]]; then
+                title="${title:0:$1}"
+            fi
+            echo "$title $page"
+        fi
+    done < "$wiki_path/index"
+}
+
+get_title() {  # full number -> title
+    i=$(grep -m 1 " $1$" "$wiki_path/index")
+    echo "${i% *}"
+}
+
+toc_languages() {  # none -> list of languages, sorted by count
+    grep -oP "^.*?/" "$wiki_path/index" | sort | uniq -c | sort -nr | tr -d '/'
+}
+
+regex_search()  {  # regex -> paths
+# this stupid thing is 50 times faster than grep -ic
+    query=$(tr 'A-Z' 'a-z' <<< "$1")
+    zcat "$wikiball" | tr 'A-Z' 'a-z' | sed 's/@@[bw]//g' | grep "$query" | cut -d: -f1 | uniq -c | sort -nr | sed 's/^ *[0-9]* //'
+}
+
+best_hits() {  # top 10 (english) matches
+    i=0
+    while read match; do
+        if [[ ! "$match" ]]; then
+            echo -e "\033[0GNo matches found."  # haaaack
+            break
+        fi
+        title=$(get_title "$match")
+        language=${title%%/*}
+        title=${title#en/}
+        title="${title//_/ }"
+        if [ "$language" = "${wiki_lang:-en}" ]; then
+            echo -e "$i\t$title\t$match"
+            i=$(( $i+1 ))
+        fi
+        if [[ "$i" = "10" ]]; then
+            break
+       fi
+    done <<< "$(regex_search "$1")"
+}
+
+show_hits() {  # try to make it look nice in term width
+    title_width="$(( $size - 15 ))"
+    while read line; do
+        echo -n  "$(cut -f 1 <<< "$line")"
+        title="$(cut -f 2 <<< "$line")"
+        echo -en "\t${title:0:$title_width}\t"
+        echo     "$(cut -f 3 <<< "$line")"
+    done <<< "$(tail -n +2 $tmp)" | column -t -s $'\t'
+}
+
+dialog_hits() {  # trust dialog to make it look nice
+    choices=()
+    while read tag line; do
+        choices+=($tag "$line")
+    done <<< "$(tail -n +2 $tmp | cut -f-2)"
+    DIALOGRC="$dialogrc_path" dialog --clear --no-tags --menu \
+        "Select a wiki page:" 0 0 0 "${choices[@]}"
+}
+
+save_search() {  # mostly for scripting wiki-search-html
+    query="$*"
+    if [[ "$#" > "1" ]]; then
+        query="$(echo "$*" | sed 's/^/\\\(/; s/$/\\\)/; s/ /\\\|/g')"
+    fi
+    echo "$query" > $tmp
+    best_hits "$query" >> $tmp
+}
+
+case "$1" in
+    --source)
+        # not for human consumption
+        ;;
+    -h|--help|'')
+        echo "$(basename $0)"
+        echo "Search and view your local copy of the Arch wiki."
+        echo ""
+        echo "Search with '$(basename $0) [query]' where query is a regex"
+        echo "or a list of terms to match individually."
+        echo "If 'dialog' is not installed you will have to choose"
+        echo "pages with '$(basename $0) [number]' where number can be a search"
+        echo "result (0-9), partial ID (NNNN), or full ID (0000NNNN)."
+        echo "Regex is case insensitive."
+        echo "See every page title with --all."
+        echo "Get a summary of languages with --lang."
+        echo "Viewer is 'less' or \$PAGER.  \$PAGER disables colored output."
+        echo "Access non-english pages by exporting \$wiki_lang first."
+        echo "Force the width (and bypass dialog) by exporting \$wiki_width."
+        ;;
+    --lang)
+        toc_languages
+        ;;
+    --all)
+        title_width="$(( $size - 13 ))"
+        if [[ -t 1 ]]; then 
+            toc_text $title_width | column -t | ${PAGER:-less}
+        else
+            toc_text
+        fi
+        ;;
+    [0-9])
+        if [[ ! -f "$tmp" ]]; then
+            echo "Error: no previous query"
+            exit 1
+        fi
+        full_number="$(tail -n +2 < $tmp | grep "^$1" | cut -f 3)"
+        regex="$(head -n 1 < $tmp)"
+        ztext "$full_number" "$regex"
+        ;;
+    [0-9]*)
+        full_number="$(almost_file "$1")"
+        regex="no regex specified"
+        if [[ -f $tmp ]]; then
+            regex="$(head -n 1 < $tmp)"
+        fi
+        ztext "$full_number" "$regex"
+        ;;
+
+    --no_dialog*)
+        show_hits
+    ;;
+    *)
+        if [[ ! -f $tmp && ! $has_dialog ]]; then
+            echo -e "Now choose a page with $(basename $0) [number]\n"
+        fi
+        save_search $@
+        if [[ $has_dialog ]]; then
+            selection=$(dialog_hits 3>&1 1>&2 2>&3 | tee /dev/stderr)
+            echo -en "\ec"
+            [[ $selection ]] && exec bash $(basename $0) $selection
+        else
+            show_hits
+        fi
+        ;;
+esac
+
+

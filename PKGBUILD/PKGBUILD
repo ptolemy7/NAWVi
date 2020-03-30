@@ -9,6 +9,7 @@ url=""
 license=('GPL')
 groups=()
 depends=( 'coreutils' 'arch-wiki-docs' 'gtk3' 'webkit2gtk' 'arch-wiki-docs-lite')
+conflicts=( 'dialog' )
 
 makedepends=( 'meson' 'vala' )
 install=

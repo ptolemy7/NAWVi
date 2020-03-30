@@ -132,7 +132,7 @@ public class NAWVi.Window : Gtk.Window  {
         return false;
     }
     public void search_changed_cb (out string return_text) {
-        string [] args = { "wiki-search",search.get_text () };
+        string [] args = { "nawvi-wiki-search","--no_dialog",search.get_text () };
         string [] env = Environ.get ();
         string std_out;
         string std_err;
