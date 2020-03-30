@@ -6,4 +6,5 @@ executable (
         dependency('webkit2gtk-4.0'),
         dependency('gee-0.8')
     ],
+    install: true
 )

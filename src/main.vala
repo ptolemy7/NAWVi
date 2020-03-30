@@ -45,6 +45,7 @@ public class NAWVi.Window : Gtk.Window  {
         var icon = new Gtk.Image.from_icon_name ("edit-find",Gtk.IconSize.BUTTON);
         search_button.set_image (icon);
         search = new Gtk.SearchEntry ();
+        search.hexpand = true;
         headerbar.set_custom_title (search);
         search.set_no_show_all (true);
         bool is_shown = false;
@@ -81,10 +82,12 @@ public class NAWVi.Window : Gtk.Window  {
                     change_site(i);
                     stack.set_visible_child (online_view);
                     search.set_text ("");
+                    search_button.set_active (false);
+
+                    
                 });
 
             };
-            search_button.set_active (false);
         });
 
         headerbar.set_show_close_button (true);
