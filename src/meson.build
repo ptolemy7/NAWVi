@@ -8,3 +8,9 @@ executable (
     ],
     install: true
 )
+
+install_data (
+    'helper_script.sh',
+    install_dir: join_paths( get_option('prefix'),'lib', meson.project_name())
+
+)

@@ -171,7 +171,7 @@ public class NAWVi.Window : Gtk.Window  {
     }
     public void make_pretty(string i ,out string exit) {
         //  print(i + "\n");
-        string [] args = { "bash","/home/ptolemy/Projects/arch_wiki/src/helper_script.sh","-p",i};
+        string [] args = { "bash","/usr/lib/com.github.ptolemy7.NAWVi/helper_script.sh","-p",i};
         string [] env = Environ.get ();
         string std_out;
         string std_err;
