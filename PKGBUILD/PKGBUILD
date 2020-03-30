@@ -14,7 +14,7 @@ install=
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/NAWVi/raw/master/tarball/v${pkgver}.tar.gz")
 build() {
     cd "$pkgname-pkgver"
-    meson build 
+    meson build --prefix=/bin
     ninja -C build
     ninja -C build install
 }
