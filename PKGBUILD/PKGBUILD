@@ -1,0 +1,27 @@
+#Maintainer: Dalton Sconce <dsconce@protonmail.com>
+pkgname=nawvi
+pkgver=0.1
+pkgrel=1
+epoch=
+pkgdesc="A viewer powered by WebKitGtk for a native copy of the Arch Wiki"
+arch=(any)
+url=""
+license=('GPL')
+groups=()
+depends=('coreutils','arch-wiki-docs')
+makedepend('meson','vala','gtk3','webkit2gtk')
+install=
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/snapper-menu-option/raw/master/tarball/v${pkgver}.tar.gz")
+build() {
+    cd "$pkgname-pkgver"
+    meson build 
+    ninja -C build
+    ninja -C build install
+}
+package() {
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/etc/smoob
+  mkdir -p $pkgdir/usr/bin/
+  install -D smoob.service $pkgdir/etc/systemd/system/
+  install -D smoob $pkgdir/usr/bin/
+}
