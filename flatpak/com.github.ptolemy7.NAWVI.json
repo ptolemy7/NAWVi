@@ -1,0 +1,10 @@
+{
+    "app-id": "com.github.ptolemy7.NAWVi",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "19.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "hello.sh",
+    "modules": [
+        {}
+    ]
+}
