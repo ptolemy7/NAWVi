@@ -59,6 +59,7 @@ public class NAWVi.Window : Gtk.Window  {
                 search.grab_focus ();
             } else {
                 search.hide ();
+                stack.set_visible_child(online_view);
             }
         });
         search.activate.connect ( () => {
@@ -73,8 +74,8 @@ public class NAWVi.Window : Gtk.Window  {
                 make_pretty(i,out pretty);
                 var temp = new Gtk.ModelButton ();
                 temp.set_label(pretty);
-                temp.set_halign (Gtk.Align.CENTER);
                 search_buttons.add (temp);
+                temp.set_hexpand(true); 
                 list_box.pack_start (temp);
                 temp.show ();
                 temp.clicked.connect ( () => {
@@ -119,10 +120,6 @@ public class NAWVi.Window : Gtk.Window  {
         get_size (out width, out height);
         get_position (out x, out y);
         var uri = online_view.get_uri ();
-        // Do some cleanup
-        //  Posix.system ("rm /tmp/gbtrfs");
-        // write them to dconf
-        // Commented out right now b/c I can't figure out what is going wrong when ran as root
         settings.set_int("pos-x", x);
         settings.set_int("pos-y", y);
         settings.set_int("window-width",width);
