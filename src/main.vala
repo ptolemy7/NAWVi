@@ -30,7 +30,6 @@ public class NAWVi.Window : Gtk.Window  {
         delete_event.connect (e => {
             return before_destroy ();
         });
-        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL,1);
         var headerbar = new Gtk.HeaderBar ();
         var list_box = new Gtk.Box (Gtk.Orientation.VERTICAL,1);
         online_view = new WebKit.WebView ();
@@ -106,12 +105,10 @@ public class NAWVi.Window : Gtk.Window  {
             online_view.go_back();
         });
         set_titlebar (headerbar);
-        set_default_size (600,400);
         stack.add (online_view);
         stack.add (list_box);
-        main_box.add (stack);
+        add (stack);
         headerbar.pack_end (search_button);
-        add(main_box);
         show_all ();
     }
     public bool before_destroy () {
@@ -119,7 +116,7 @@ public class NAWVi.Window : Gtk.Window  {
         int width, height, x,y;
         get_size (out width, out height);
         get_position (out x, out y);
-        var uri = online_view.get_uri ();
+        string uri = online_view.get_uri ();
         settings.set_int("pos-x", x);
         settings.set_int("pos-y", y);
         settings.set_int("window-width",width);
