@@ -73,8 +73,7 @@ public class NAWVi.Window : Gtk.Window  {
                 make_pretty(i,out pretty);
                 var temp = new Gtk.ModelButton ();
                 temp.set_label(pretty);
-                float align = 0.5f;
-                temp.set_alignment (align,align);
+                temp.set_halign (Gtk.Align.CENTER);
                 search_buttons.add (temp);
                 list_box.pack_start (temp);
                 temp.show ();
@@ -151,7 +150,8 @@ public class NAWVi.Window : Gtk.Window  {
             //  print(std_out);
             return_text = std_out;
         } catch (Error e) {
-            stderr.printf("Error: %s\n", e.message);
+            return_text = "Error " + e.message;
+            stderr.printf("%s\n",return_text);
         }
     }
     public void show_text (string text, out Gee.ArrayList<string> return_list) {
@@ -175,6 +175,7 @@ public class NAWVi.Window : Gtk.Window  {
         string [] env = Environ.get ();
         string std_out;
         string std_err;
+        try {
         int cmd_status;
             Process.spawn_sync ( 
                 "/",
@@ -188,6 +189,10 @@ public class NAWVi.Window : Gtk.Window  {
 
             //  print(std_out);
             exit=std_out;
+        } catch(Error e) {
+            exit = "Error:" +  e.message;
+            std_err.printf("%s\n",exit);
+        }
     }
     public void change_site (string i ) {
         string [] args = { "nawvi_helper_script","-h",i};
@@ -195,6 +200,7 @@ public class NAWVi.Window : Gtk.Window  {
         string std_out;
         string std_err;
         int cmd_status;
+        try {
         Process.spawn_sync ( 
                 "/",
                 args,
@@ -206,6 +212,9 @@ public class NAWVi.Window : Gtk.Window  {
                 out cmd_status);
         string new_uri = "file://" + std_out;
         online_view.load_uri(new_uri);
+        } catch (Error e) {
+            stdout.printf("Error: %s\n",e.message);
+        }
     }
 }
 
