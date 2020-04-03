@@ -1,6 +1,6 @@
 #Maintainer: Dalton Sconce <dsconce@protonmail.com>
 pkgname=nawvi
-pkgver=0.1
+pkgver=0.2
 pkgrel=1
 epoch=
 pkgdesc="A viewer powered by WebKitGtk for a native copy of the Arch Wiki"
@@ -13,8 +13,7 @@ conflicts=( )
 
 makedepends=( 'meson' 'vala' )
 install=
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/NAWVi/raw/pkgbuild/tarball/v${pkgver}.tar.gz")
-# source=("tarball.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptolemy7/NAWVi/raw/master/tarball/v${pkgver}.tar.gz")
 build() {
     pwd
     meson build --prefix=/usr
@@ -26,4 +25,4 @@ package() {
 
 
 
-md5sums=('fa3b428392cc5b643530582353081ee8')
+md5sums=('5dc4de0dd45be6bfd0467bfdc91a6632')
