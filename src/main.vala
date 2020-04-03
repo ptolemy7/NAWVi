@@ -212,4 +212,3 @@ public class NAWVi.Window : Gtk.Window  {
     }
 }
 
-
