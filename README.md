@@ -1,4 +1,5 @@
 # NAWVi - The Native Arch Wiki Viewer
+![screenshot1](./screenshots/one_age.png)
 
 There is a great package in the Arch Linux repos: `arch-wiki-docs` which allow viewing of the pages of the wiki locally. However, while this is a great resource, sometimes I'm not actively in the terminal (Shocking, I know), and just want to quickly look something up in a dedicated gui. Enter NAWVi. It is basically a front-end for the `wiki-search-html` tool provided by `arch-wiki-docs`. It is powered by Gtk, WebKitGtk, and written in Vala.
 
