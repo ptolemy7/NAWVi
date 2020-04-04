@@ -27,3 +27,11 @@ $ cd build
 $ ninja 
 $ sudo ninja install 
 ```
+
+### To-do List:
+- [ ] Add bookmark functionality
+- [ ] Get icon
+- [ ] Flatpak support
+- [ ] Revamp search engine (i.e. become self sufficient)
+- [ ] Redesign what the search looks like
+- [ ] Update as you type (***must*** have faster search for this)
